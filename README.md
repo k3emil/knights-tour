@@ -1,2 +1,3 @@
-# knights-tour
-Solutions to Knights tour problem
+# Knight's Tour
+
+This repo shows my solution to Knight's tour problem
