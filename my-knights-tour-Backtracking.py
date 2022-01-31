@@ -1,3 +1,6 @@
+from datetime import datetime
+
+start = datetime.now()
 board = [
     [1, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -50,9 +53,7 @@ def solve_knights_tour():
 
 
 def is_valid_position(i_next, j_next):
-    if i_next < 0 or i_next > 7 or j_next < 0 or j_next > 7:
-        return False
-    if str(board[i_next][j_next]) != "0":
+    if i_next < 0 or i_next > 7 or j_next < 0 or j_next > 7 or str(board[i_next][j_next]) != "0":
         return False
     return True
 
@@ -71,3 +72,6 @@ def print_solution(is_solved):
 
 if __name__ == "__main__":
     solve_knights_tour()
+
+finish = datetime.now()
+print("\nTOTAL EXECUTION TIME = " + str(finish-start))
