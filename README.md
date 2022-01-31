@@ -6,7 +6,7 @@ This repo shows my solutions to the [Knight's tour problem](https://en.wikipedia
 
 TOTAL EXECUTION TIME is more than 32 seconds (starting point is left upper corner)
 
-2- my-knights-tour-Warnsdorff.py shows the solution using Warnsdorff's method.
+2- my-knights-tour-Warnsdorffs-rule.py shows the solution using Warnsdorff's method.
 
 TOTAL EXECUTION TIME is less than 0.002 seconds
 
