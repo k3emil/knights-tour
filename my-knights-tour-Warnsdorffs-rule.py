@@ -69,5 +69,4 @@ if __name__ == "__main__":
     solve_knights_tour()
 
 finish = datetime.now()
-
 print("\nTOTAL EXECUTION TIME = " + str(finish-start))
