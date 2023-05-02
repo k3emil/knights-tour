@@ -2,15 +2,17 @@ from datetime import datetime
 
 start = datetime.now()
 board = [
-    [1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0]
+    [1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
+
 i_moves = [-1, 1, 2, 2, 1, -1, -2, -2]
 j_moves = [2, 2, 1, -1, -2, -2, -1, 1]
 
@@ -24,7 +26,7 @@ def solve_knights_tour():
     warns_index = 0
 
     while not is_solved:
-        if counter == 64:
+        if counter == 81:
             is_solved = True
             break
         for it in range(8):
@@ -48,14 +50,14 @@ def solve_knights_tour():
 
 
 def is_valid_position(i_next, j_next):
-    if i_next < 0 or i_next > 7 or j_next < 0 or j_next > 7 or str(board[i_next][j_next]) != "0":
+    if i_next < 0 or i_next > 8 or j_next < 0 or j_next > 8 or str(board[i_next][j_next]) != "0":
         return False
     return True
 
 
 def print_solution(is_solved):
-    for i in range(8):
-        for j in range(8):
+    for i in range(9):
+        for j in range(9):
             print(str(board[i][j]) + " ", end="") if len(str(board[i][j])) == 2 else print("0" + str(board[i][j]) + " ", end="")
         print()
 
