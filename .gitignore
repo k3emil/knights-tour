@@ -1,0 +1,8 @@
+.DS_Store
+notes.txt
+
+.venv/
+tb/
+checkpoints/
+*.zip
+__pycache__/

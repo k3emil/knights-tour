@@ -1,0 +1,11 @@
+# Pinned for macOS x86_64 (Intel): PyTorch ships no macOS x86_64 wheels after 2.2.2,
+# and stable-baselines3 >= 2.4.0 requires torch >= 2.3.0. Hence the 2.3.x SB3 line.
+torch==2.2.2
+# torch 2.2.2 is built against NumPy 1.x and raises "Numpy is not available" under NumPy 2.
+numpy==1.26.4
+gymnasium==0.29.1
+stable-baselines3==2.3.2
+sb3-contrib==2.3.0
+tensorboard==2.19.0
+# tensorboard still imports pkg_resources, which Python 3.12 venvs no longer ship.
+setuptools==75.6.0
