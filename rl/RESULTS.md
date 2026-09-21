@@ -79,7 +79,7 @@ Two observations:
 |---|---|---|
 | random legal moves | 0 / 36 | mean coverage 20.10 |
 | RL, MaskablePPO + MLP | 35 / 36 | learned from reward only, no heuristic given |
-| Warnsdorff's rule | 36 / 36 | hand-coded heuristic |
+| Warnsdorff's rule | 36 / 36 | hand-coded heuristic, tie-break = furthest from centre (the repo script's first-minimum tie-break gets 35 / 36) |
 
 Speed comparison is deliberately out of scope for now.
 

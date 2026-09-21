@@ -70,7 +70,7 @@ after 2.2.2; that pin in turn fixes the SB3 and NumPy versions.
 | random legal moves | 0 / 36 | 20.10 | 10,000 episodes, never completed a tour |
 | RL — MaskablePPO + MLP | 35 / 36 (97.2%) | 35.97 | 3M steps, 26 min on 6 CPU cores |
 | RL — MaskablePPO + CNN | not run yet | — | planned variant, see `PLAN.md` |
-| Warnsdorff's rule | 36 / 36 | 36 | hand-coded heuristic, for reference |
+| Warnsdorff's rule | 36 / 36 | 36 | hand-coded heuristic, tie-break = furthest from centre |
 
 Training reached 31.2 mean squares by 132k steps and a 98% rolling success rate by about
 1.15M steps. The one failing start, (1, 2), reaches 35 of 36 squares; a tour does exist
