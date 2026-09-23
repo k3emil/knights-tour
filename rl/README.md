@@ -55,8 +55,8 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 python baseline_random.py --episodes 10000 --board-size 6
-python train.py --steps 3000000 --board-size 6 --n-envs 6
-python evaluate.py --model model.zip --board-size 6
+python train.py --steps 3000000 --board-size 6 --n-envs 6 --model-out model_ent03.zip
+python evaluate.py --model model_ent03.zip --board-size 6
 tensorboard --logdir tb          # optional, learning curves
 ```
 
@@ -68,19 +68,18 @@ after 2.2.2; that pin in turn fixes the SB3 and NumPy versions.
 | method | starts solved | mean squares covered | notes |
 |---|---|---|---|
 | random legal moves | 0 / 36 | 20.10 | 10,000 episodes, never completed a tour |
-| RL — MaskablePPO + MLP, `ent_coef=0.01` | 35 / 36 (97.2%) | 35.97 | 3M steps, first run |
-| RL — MaskablePPO + MLP, `ent_coef=0.03` | **36 / 36 (100%)** | 36.00 | 3M steps, 19 min on 6 CPU cores |
+| RL — MaskablePPO + MLP | **36 / 36 (100%)** | 36.00 | 3M steps, 19 min on 6 CPU cores |
 | RL — MaskablePPO + CNN | not run yet | — | planned variant, see `PLAN.md` |
 | Warnsdorff's rule | 36 / 36 | 36 | hand-coded heuristic, tie-break = furthest from centre |
 
-The first run left exactly one start unsolved, (1, 2), reaching 35 of 36 squares. That is
-the hardest start on the board: corner (0, 0) has only two knight-neighbours, (1, 2) and
-(2, 1), so starting on one of them forces the corner to be taken either second or last.
+Every start is solved in a single deterministic shot, with no retries, and every tour was
+verified square by square. Training passed 31 of 36 mean coverage within the first 150k
+steps and had effectively converged by ~1.5M.
 
-The cause was entropy collapse — by 1.6M steps `entropy_loss` had reached -0.011, the
-policy had stopped exploring, and sampled retries were identical to argmax. Raising
-`ent_coef` from 0.01 to 0.03, with nothing else changed, closed that gap and solved all
-36 starts in a single deterministic shot. Every tour was verified square by square.
+The hardest start is (1, 2): corner (0, 0) has only two knight-neighbours, (1, 2) and
+(2, 1), so a tour starting there must take the corner either immediately as its second
+square or right at the end. There are 8 such corner-neighbour starts and the policy
+handles all of them.
 
 Worth noting for the original question: the trained policy does **not** reproduce
 Warnsdorff's tours. Per-move agreement is about 15%, and not one of the 36 paths matches.

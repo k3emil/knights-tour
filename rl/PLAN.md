@@ -10,18 +10,20 @@ search), so the target success rate is a clean 100%.
 Two network variants are planned. Everything except the network and the observation
 shape is identical between them.
 
-**Status: Plan A (6x6 + MLP) is the chosen path and is being implemented now.**
-Plan B (CNN) is kept as a later comparison run. It reuses the same environment, reward,
-masking and evaluation, so the two are measured on equal terms and the only difference
-is the network.
+**Status: Plan A (6x6 + MLP) is DONE — 36 / 36 starts solved. See `RESULTS.md`.**
+Plan B (CNN) is still open, as a later comparison run. It reuses the same environment,
+reward, masking and evaluation, so the two are measured on equal terms and the only
+difference is the network.
 
 ---
 
-## Plan A — 6x6, MLP, local only — SELECTED, IN PROGRESS
+## Plan A — 6x6, MLP, local only — DONE (36 / 36 starts solved)
 
 ### 0. Setup
 Python venv, install `gymnasium`, `stable-baselines3`, `sb3-contrib`, `torch`,
 `tensorboard`. Pin versions in `requirements.txt`.
+*Done: pinned to torch 2.2.2 / numpy 1.26.4 / gymnasium 0.29.1 / SB3 2.3.2 /
+sb3-contrib 2.3.0, the newest set with macOS x86_64 wheels.*
 
 ### 1. Environment (`knights_tour_env.py`)
 Gymnasium env: 6x6 board, random start from all 36 squares each episode (all verified
@@ -30,26 +32,32 @@ legal-move mask) flattened into a 108-value vector. 8 discrete actions,
 `action_masks()` for legality, optional fixed start via `reset(options=...)` for
 evaluation. Reward +1 per new square, plus ~10 bonus at 36. Episode ends when no legal
 move remains.
+*Done as described.*
 
 ### 2. Baseline
 Random legal-move agent, 10k episodes. Record tour success rate and mean squares
 covered. Confirms the env works and sets the bar to beat.
+*Done: 0 of 10,000 episodes completed a tour, mean coverage 20.10 of 36.*
 
 ### 3. Network
 MaskablePPO from sb3-contrib with `"MlpPolicy"`. No custom extractor needed — SB3's
 default two hidden layers of 64 units work on a flat vector, and `net_arch=[128, 128]`
 is a reasonable first bump if learning stalls.
+*Done: `net_arch=[128, 128]`, `ent_coef=0.03`.*
 
 ### 4. Train
 6 parallel envs (6 physical cores on the i7-9750H), ~2-5M steps, TensorBoard logging of
 success rate and mean coverage, periodic checkpoints. Expect faster than the CNN run,
 so roughly 15-30 min; budget an evening for a few hyperparameter passes.
+*Done: 3M steps in 19 min at 2,610 steps/s.*
 
 ### 5. Evaluate (`evaluate.py`)
 Run all 36 starts deterministically: success rate and mean squares covered. Save the
 model and print one finished tour as a **6x6** grid (the printed grid always follows the
 env's board size, never a fixed 8x8), reusing the zero-padded two-digit cell style of
 the existing two scripts.
+*Done: 36 / 36 starts solved in a single deterministic shot, mean coverage 36.00, all
+tours verified square by square.*
 
 ### 6. Repo and reporting
 Keep all RL work inside the `rl/` folder and write a new RL-specific `rl/README.md`
@@ -58,6 +66,8 @@ environment, the reward and how to run training and evaluation, and it holds the
 of **both** variants (MLP and CNN) side by side in one comparison table: success rate,
 mean squares covered, training steps and training time. The top-level `README.md` is
 **not** touched at all — no new sections, no links, no edits of any kind.
+*Done: `rl/README.md` and `rl/RESULTS.md` written, root README untouched. The CNN column
+stays empty until Plan B runs.*
 
 ### Later
 CNN variant for comparison, inference-speed benchmarking, larger boards (CNN only, via
