@@ -1,7 +1,6 @@
 # Knight's Tour by Reinforcement Learning
 
-A third solution method for this repo, next to backtracking and Warnsdorff's rule — both
-of which live in [`classic/`](classic/).
+A third solution to the [Knight's tour problem](https://en.wikipedia.org/wiki/Knight%27s_tour), next to backtracking and Warnsdorff's rule (under classic/).
 
 The question here is different from those two scripts. They implement an algorithm
 someone already knew. This one asks whether an agent can **learn** to complete knight's

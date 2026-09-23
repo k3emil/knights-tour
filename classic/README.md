@@ -15,8 +15,3 @@ Comparing worst case to worst case, Warnsdorff's heuristic improves the performa
 python3 knights-tour-Backtracking.py
 python3 knights-tour-Warnsdorffs-rule.py
 ```
-
-Neither script needs any dependencies.
-
-For the third solution, which learns to solve the problem by reinforcement learning
-instead of being given an algorithm, see the [repository root](../).
