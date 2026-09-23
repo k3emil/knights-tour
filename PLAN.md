@@ -60,14 +60,13 @@ the existing two scripts.
 tours verified square by square.*
 
 ### 6. Repo and reporting
-Keep all RL work inside the `rl/` folder and write a new RL-specific `rl/README.md`
-rather than expanding the top-level README. That RL README documents the method, the
-environment, the reward and how to run training and evaluation, and it holds the results
-of **both** variants (MLP and CNN) side by side in one comparison table: success rate,
-mean squares covered, training steps and training time. The top-level `README.md` is
-**not** touched at all — no new sections, no links, no edits of any kind.
-*Done: `rl/README.md` and `rl/RESULTS.md` written, root README untouched. The CNN column
-stays empty until Plan B runs.*
+Document the method, the environment, the reward and how to run training and evaluation,
+and hold the results of **both** variants (MLP and CNN) side by side in one comparison
+table: success rate, mean squares covered, training steps and training time. The
+backtracking and Warnsdorff scripts keep their own README.
+*Done: `README.md` and `RESULTS.md` written. The RL solution now sits at the repo root and
+the two hand-coded solvers moved to `classic/`. The CNN column stays empty until Plan B
+runs.*
 
 ### Later
 CNN variant for comparison, inference-speed benchmarking, larger boards (CNN only, via
@@ -111,12 +110,10 @@ env's board size, never a fixed 8x8), reusing the zero-padded two-digit cell sty
 the existing two scripts.
 
 ### 6. Repo and reporting
-Keep all RL work inside the `rl/` folder and write a new RL-specific `rl/README.md`
-rather than expanding the top-level README. That RL README documents the method, the
-environment, the reward and how to run training and evaluation, and it holds the results
-of **both** variants (MLP and CNN) side by side in one comparison table: success rate,
-mean squares covered, training steps and training time. The top-level `README.md` is
-**not** touched at all — no new sections, no links, no edits of any kind.
+Document the method, the environment, the reward and how to run training and evaluation,
+and hold the results of **both** variants (MLP and CNN) side by side in one comparison
+table: success rate, mean squares covered, training steps and training time. The
+backtracking and Warnsdorff scripts keep their own README.
 
 ### Later
 MLP variant for comparison, inference-speed benchmarking, larger boards via a fixed
