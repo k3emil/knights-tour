@@ -1,0 +1,13 @@
+EVALUATION  board=6x6  model=model_ent03.zip
+  mode            : deterministic
+  starts solved   : 36 / 36 (100.0%)
+  squares covered : mean 36.00  min 36  max 36
+  elapsed         : 0:00:00.817166
+
+EXAMPLE COMPLETE TOUR
+01 22 19 06 03 28
+20 07 02 29 18 05
+23 30 21 04 27 14
+08 33 10 15 36 17
+11 24 31 34 13 26
+32 09 12 25 16 35

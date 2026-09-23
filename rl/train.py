@@ -114,7 +114,9 @@ def main() -> None:
     #   gamma  0.995  - discount factor; high because reward accrues over ~36 steps and
     #                   the completion bonus arrives right at the end
     #   gae_lambda / clip_range - standard PPO advantage smoothing and update clipping
-    #   ent_coef 0.01 - entropy bonus, encourages exploration early on
+    #   ent_coef 0.03 - entropy bonus, encourages exploration. Raised from 0.01 because
+    #                   in the first run entropy collapsed (entropy_loss reached -0.011)
+    #                   and the policy stopped exploring, leaving start (1, 2) unsolved
     #   net_arch [128, 128] - two hidden layers of 128 units; this IS the whole network
     model = MaskablePPO(
         "MlpPolicy",
@@ -126,7 +128,7 @@ def main() -> None:
         gamma=0.995,
         gae_lambda=0.95,
         clip_range=0.2,
-        ent_coef=0.01,
+        ent_coef=0.03,
         policy_kwargs={"net_arch": [128, 128]},
         tensorboard_log=str(HERE / "tb"),
         seed=args.seed,
