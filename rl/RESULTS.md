@@ -153,3 +153,69 @@ solves 7 of them.
 
 Deliberately not doing: rewarding low-degree squares. That is Warnsdorff's rule in the
 reward function, which would defeat the point of the experiment.
+
+## Step 6 — run 2: entropy bonus raised to 0.03 (SOLVED, 36 / 36)
+
+Single-variable experiment following the Step 5b diagnosis. Only `ent_coef` changed,
+0.01 -> 0.03 in `train.py`; steps, seed, network, reward and environment all identical.
+Logs: `train_ent03.log`, `eval_ent03_deterministic.log`. Model: `model_ent03.zip`.
+
+Run 1's checkpoints were moved to `checkpoints_ent01/` beforehand, since both runs write
+the same `ktour_mlp_` prefix.
+
+| | run 1, `ent_coef=0.01` | run 2, `ent_coef=0.03` |
+|---|---|---|
+| starts solved, single shot (argmax) | 35 / 36 | **36 / 36** |
+| mean squares covered | 35.97 | 36.00 |
+| unsolved starts | (1, 2) | none |
+| final `entropy_loss` | -0.011 (collapsed) | -0.027 (still exploring) |
+| best rolling success during training | 1.000 | 1.000 |
+| wall clock, 3M steps | 26 min 12 s | 19 min 09 s |
+
+All 36 tours were verified independently: every square numbered exactly once, and every
+consecutive pair a legal knight move.
+
+The shorter wall clock is not an effect of `ent_coef`. Run 1 was competing for CPU with a
+runaway brute-force process.
+
+### What this settles
+
+The Step 5b diagnosis was right, and the cheaper of the proposed fixes was enough.
+Entropy collapse was the real problem: keeping exploration alive let the agent discover
+the opening it had been missing at start (1, 2), where corner (0, 0) has to be taken
+either second or last.
+
+The earlier caveat that a higher entropy bonus might cost "greedy sharpness" did not
+materialise — single-shot argmax performance improved rather than degrading.
+
+### The finished policy is deterministic in practice
+
+Verified across all 36 starts with 5 repeats each: exactly one distinct path per start.
+That is expected for argmax with frozen weights.
+
+More surprising, sampling barely differs. 20 sampled runs from (1, 2) gave 1 distinct path
+and 20 / 20 full tours, because the policy is very confident — the top action averages
+0.998 probability and never drops below 0.949 across the 35 moves. So `ent_coef=0.03` kept
+enough exploration *during training* to find the solution, while the finished policy is
+effectively deterministic, behaving like a lookup table of 36 fixed tours.
+
+### It did not rediscover Warnsdorff's rule
+
+Every start was played twice, once by the policy and once by Warnsdorff, and the paths
+compared square by square against both tie-break variants:
+
+| | vs repo tie-break | vs periphery tie-break |
+|---|---|---|
+| identical full path | 0 / 36 | 0 / 36 |
+| same very first move | 23 / 36 | 22 / 36 |
+| mean per-move agreement | 15.3% | 15.1% |
+| median move where paths diverge | 3 | 4 |
+
+The agent reaches the same outcome as the heuristic, 36 / 36, by its own route. The two
+agree on the opening move about two-thirds of the time, then diverge within a few moves.
+The shared instinct is only the broad one of not stranding squares; the specific "fewest
+onward moves" rule is not what the network learned.
+
+Caveat on reading this: identical paths were never likely, since a single start admits a
+huge number of valid tours. The low per-move agreement is the meaningful figure, not the
+zero exact matches.

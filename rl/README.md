@@ -68,31 +68,37 @@ after 2.2.2; that pin in turn fixes the SB3 and NumPy versions.
 | method | starts solved | mean squares covered | notes |
 |---|---|---|---|
 | random legal moves | 0 / 36 | 20.10 | 10,000 episodes, never completed a tour |
-| RL — MaskablePPO + MLP | 35 / 36 (97.2%) | 35.97 | 3M steps, 26 min on 6 CPU cores |
+| RL — MaskablePPO + MLP, `ent_coef=0.01` | 35 / 36 (97.2%) | 35.97 | 3M steps, first run |
+| RL — MaskablePPO + MLP, `ent_coef=0.03` | **36 / 36 (100%)** | 36.00 | 3M steps, 19 min on 6 CPU cores |
 | RL — MaskablePPO + CNN | not run yet | — | planned variant, see `PLAN.md` |
 | Warnsdorff's rule | 36 / 36 | 36 | hand-coded heuristic, tie-break = furthest from centre |
 
-Training reached 31.2 mean squares by 132k steps and a 98% rolling success rate by about
-1.15M steps. The one failing start, (1, 2), reaches 35 of 36 squares; a tour does exist
-from there, so it is a policy gap rather than an impossible board.
+The first run left exactly one start unsolved, (1, 2), reaching 35 of 36 squares. That is
+the hardest start on the board: corner (0, 0) has only two knight-neighbours, (1, 2) and
+(2, 1), so starting on one of them forces the corner to be taken either second or last.
 
-Retrying with sampled actions instead of argmax did not help, because the policy's
-entropy had collapsed by the end of training — sampling had become equivalent to argmax.
-Decaying `ent_coef` more slowly would make retries a genuine second chance.
+The cause was entropy collapse — by 1.6M steps `entropy_loss` had reached -0.011, the
+policy had stopped exploring, and sampled retries were identical to argmax. Raising
+`ent_coef` from 0.01 to 0.03, with nothing else changed, closed that gap and solved all
+36 starts in a single deterministic shot. Every tour was verified square by square.
+
+Worth noting for the original question: the trained policy does **not** reproduce
+Warnsdorff's tours. Per-move agreement is about 15%, and not one of the 36 paths matches.
+It reaches the same result by its own strategy.
 
 Full numbers, exact commands and log files are in `RESULTS.md`.
 
 ## What this shows
 
 An agent with no knowledge of Warnsdorff's rule, learning only from "+1 per new square",
-goes from 0/36 to 35/36 solved starts. That answers the original question: RL does apply
-to the knight's tour. It does not beat the hand-coded heuristic on this board, which is
-the expected and honest outcome — Warnsdorff is a very good rule for a problem this size.
+goes from 0/36 to 36/36 solved starts, matching the hand-coded heuristic on this board.
+That answers the original question: RL does apply to the knight's tour, and it can reach
+the same result without being told the rule — while arriving at entirely different tours.
 
 ## Next steps
 
-- CNN variant, for comparison on success rate, training time and inference time
-- Close the last start square (longer training, slower entropy decay, or a larger network)
+- CNN variant, for comparison on success rate and training time
+- Scale to 8x8, where 3M steps will not be enough
 - Inference-speed benchmark against backtracking and Warnsdorff
 - Larger boards (CNN only, padding boards onto a fixed canvas with an off-board channel)
 - MCTS on top of the policy, if plain policy improvements plateau
