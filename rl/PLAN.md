@@ -34,18 +34,18 @@ evaluation. Reward +1 per new square, plus ~10 bonus at 36. Episode ends when no
 move remains.
 *Done as described.*
 
-### 2. Baseline
+### 2. Baseline (`baseline_random.py`)
 Random legal-move agent, 10k episodes. Record tour success rate and mean squares
 covered. Confirms the env works and sets the bar to beat.
 *Done: 0 of 10,000 episodes completed a tour, mean coverage 20.10 of 36.*
 
-### 3. Network
+### 3. Network (`train.py`)
 MaskablePPO from sb3-contrib with `"MlpPolicy"`. No custom extractor needed — SB3's
 default two hidden layers of 64 units work on a flat vector, and `net_arch=[128, 128]`
 is a reasonable first bump if learning stalls.
 *Done: `net_arch=[128, 128]`, `ent_coef=0.03`.*
 
-### 4. Train
+### 4. Train (`train.py`)
 6 parallel envs (6 physical cores on the i7-9750H), ~2-5M steps, TensorBoard logging of
 success rate and mean coverage, periodic checkpoints. Expect faster than the CNN run,
 so roughly 15-30 min; budget an evening for a few hyperparameter passes.
@@ -89,17 +89,17 @@ legal-move mask. 8 discrete actions, `action_masks()` for legality, optional fix
 start via `reset(options=...)` for evaluation. Reward +1 per new square, plus ~10 bonus
 at 36. Episode ends when no legal move remains.
 
-### 2. Baseline
+### 2. Baseline (`baseline_random.py`)
 Random legal-move agent, 10k episodes. Record tour success rate and mean squares
 covered. Confirms the env works and sets the bar to beat.
 
-### 3. Network
+### 3. Network (`train.py`)
 MaskablePPO from sb3-contrib with a custom small CNN extractor — SB3's default
 `NatureCNN` needs inputs >= 36x36, so 6x6 needs your own. Two conv layers, 3x3 kernels,
 padding 1 (5x5 receptive field, matching the knight's reach), then flatten to a small
 dense layer.
 
-### 4. Train
+### 4. Train (`train.py`)
 6 parallel envs (6 physical cores on the i7-9750H), ~2-5M steps, TensorBoard logging of
 success rate and mean coverage, periodic checkpoints. Expect roughly 20-45 min per run;
 budget an evening for a few hyperparameter passes.
