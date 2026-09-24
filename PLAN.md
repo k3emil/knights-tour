@@ -62,11 +62,7 @@ tours verified square by square.*
 ### 6. Repo and reporting
 Document the method, the environment, the reward and how to run training and evaluation,
 and hold the results of **both** variants (MLP and CNN) side by side in one comparison
-table: success rate, mean squares covered, training steps and training time. The
-backtracking and Warnsdorff scripts keep their own README.
-*Done: `README.md` and `RESULTS.md` written. The RL solution now sits at the repo root and
-the two hand-coded solvers moved to `classic/`. The CNN column stays empty until Plan B
-runs.*
+table: success rate, mean squares covered, training steps and training time.
 
 ### Later
 CNN variant for comparison, inference-speed benchmarking, larger boards (CNN only, via
@@ -75,7 +71,7 @@ porting the same script to SageMaker.
 
 ---
 
-## Plan B — 6x6, CNN, local only — LATER (comparison run)
+## Plan B — 6x6, CNN, local only — planned for LATER (comparison run)
 
 ### 0. Setup
 Python venv, install `gymnasium`, `stable-baselines3`, `sb3-contrib`, `torch`,
@@ -112,8 +108,7 @@ the existing two scripts.
 ### 6. Repo and reporting
 Document the method, the environment, the reward and how to run training and evaluation,
 and hold the results of **both** variants (MLP and CNN) side by side in one comparison
-table: success rate, mean squares covered, training steps and training time. The
-backtracking and Warnsdorff scripts keep their own README.
+table: success rate, mean squares covered, training steps and training time.
 
 ### Later
 MLP variant for comparison, inference-speed benchmarking, larger boards via a fixed

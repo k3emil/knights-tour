@@ -1,16 +1,14 @@
 # Knight's Tour by Reinforcement Learning
 
-A third solution to the [Knight's tour problem](https://en.wikipedia.org/wiki/Knight%27s_tour), next to backtracking and Warnsdorff's rule (under classic/).
+A third solution to the [Knight's tour problem](https://en.wikipedia.org/wiki/Knight%27s_tour), next to backtracking and Warnsdorff's rule (under classic/ folder).
 
-The question here is different from those two scripts. They implement an algorithm
-someone already knew. This one asks whether an agent can **learn** to complete knight's
+The question here is whether an agent can **learn** to complete knight's
 tours from nothing but reward, in the spirit of AlphaZero learning chess without opening
 books. No heuristic is encoded anywhere: not in the reward, not in the observation, not
 in the move ordering.
 
-Board size is **6x6**, chosen because a tour exists from all 36 start squares, so the
-target success rate is a clean 100%. (On 3x3 and 4x4 no tour exists at all; on 5x5 and
-7x7 colour parity rules out every minority-colour start. See `PLAN.md`.)
+Board size is **6x6** — the smallest board on which a tour exists from every start square,
+so the target success rate is a clean 100%. See `PLAN.md`.)
 
 Speed comparison against the other two methods is deliberately out of scope for now.
 
@@ -18,7 +16,7 @@ Speed comparison against the other two methods is deliberately out of scope for 
 
 | piece | choice |
 |---|---|
-| algorithm | MaskablePPO (PPO with action masking), sb3-contrib |
+| algorithm | MaskablePPO (Proximal Policy Optimization with action masking), sb3-contrib |
 | network | MLP, `net_arch=[128, 128]` |
 | observation | 3 planes of 6x6 — visited squares, knight position, currently reachable squares — flattened to 108 values |
 | actions | 8 knight moves |
@@ -43,7 +41,7 @@ the definition of the puzzle rather than a strategy for solving it. All judgemen
 | `baseline_random.py` | random-legal-move agent, the bar the policy has to beat |
 | `train.py` | MaskablePPO + MLP training, TensorBoard logging, checkpoints |
 | `evaluate.py` | plays every start square, reports success rate and prints one finished tour |
-| `PLAN.md` | full plan for both the MLP and CNN variants, plus the board facts behind the 6x6 choice |
+| `PLAN.md` | full plan for both the MLP (Multilayer Perceptron) and CNN (Convolutional Neural Network) variants, plus the board facts behind the 6x6 choice |
 | `RESULTS.md` | measured results with commands, settings and logs |
 
 ## Running it
