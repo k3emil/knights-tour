@@ -1,5 +1,7 @@
 # Knight's Tour by Reinforcement Learning
 
+*Built with an AI assistant.*
+
 A third solution to the [Knight's tour problem](https://en.wikipedia.org/wiki/Knight%27s_tour), next to backtracking and Warnsdorff's rule (under classic/ folder).
 
 The question here is whether an agent can **learn** to complete knight's
@@ -17,7 +19,7 @@ Speed comparison against the other two methods is deliberately out of scope for 
 | piece | choice |
 |---|---|
 | algorithm | MaskablePPO (Proximal Policy Optimization with action masking), sb3-contrib |
-| network | MLP, `net_arch=[128, 128]` |
+| network | MLP (Multilayer Perceptron), `net_arch=[128, 128]` |
 | observation | 3 planes of 6x6 — visited squares, knight position, currently reachable squares — flattened to 108 values |
 | actions | 8 knight moves |
 | action mask | blocks off-board and already-visited targets, i.e. the rules of chess only |
@@ -87,9 +89,11 @@ Full numbers, exact commands and log files are in `RESULTS.md`.
 ## What this shows
 
 An agent with no knowledge of Warnsdorff's rule, learning only from "+1 per new square",
-goes from 0/36 to 36/36 solved starts, matching the hand-coded heuristic on this board.
-That answers the original question: RL does apply to the knight's tour, and it can reach
-the same result without being told the rule — while arriving at entirely different tours.
+goes from 0/36 to 36/36 solved starts — the same success rate as the hand-coded heuristic
+on this board, though reached by different tours rather than by the same decisions. That
+answers the original question: RL does apply to the knight's tour, and it can match the
+heuristic's result without ever being told the rule, using a strategy of its own - arriving
+at entirely different tours.
 
 ## Next steps
 
