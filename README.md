@@ -10,7 +10,7 @@ books. No heuristic is encoded anywhere: not in the reward, not in the observati
 in the move ordering.
 
 Board size is **6x6** — the smallest board on which a tour exists from every start square,
-so the target success rate is a clean 100%. See `PLAN.md`.)
+so the target success rate is a clean 100% (see `PLAN.md`).
 
 Speed comparison against the other two methods is deliberately out of scope for now.
 
@@ -74,6 +74,16 @@ after 2.2.2; that pin in turn fixes the SB3 and NumPy versions.
 Every start is solved in a single deterministic shot, with no retries, and every tour was
 verified square by square. Training passed 31 of 36 mean coverage within the first 150k
 steps and had effectively converged by ~1.5M.
+
+![Tour success rate during training](images/success_rate.png)
+
+Success rate climbs past 0.9 within ~400k steps and holds near 1.0 for the rest of the run.
+
+![Policy entropy during training](images/entropy_loss.png)
+
+Entropy rises from -1.03 to about -0.028: the policy starts out exploratory and becomes
+steadily more decisive, without collapsing to fully deterministic. Note that SB3 logs
+entropy as a loss term, i.e. negated, so rising towards zero means *less* exploration.
 
 The hardest start is (1, 2): corner (0, 0) has only two knight-neighbours, (1, 2) and
 (2, 1), so a tour starting there must take the corner either immediately as its second
